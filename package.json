@@ -1,0 +1,30 @@
+{
+  "name": "json-to-video",
+  "version": "1.0.0",
+  "description": "My Remotion video",
+  "scripts": {
+    "start": "node server/index.js",
+    "develop": "nodemon -w server/index.js server/*.js",
+    "debugvid": "remotion preview src/Videony5A3DLNbasVydX/index.js",
+    "upgrade": "remotion upgrade",
+    "test": "eslint src --ext ts,tsx,js,jsx"
+  },
+  "repository": {},
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@remotion/cli": "3.2.31",
+    "@remotion/eslint-config": "3.2.31",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.14.0",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.6.2",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "remotion": "3.2.31",
+    "uniq-string": "^1.0.0",
+    "yup": "^0.32.11"
+  }
+}

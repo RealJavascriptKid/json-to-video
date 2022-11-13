@@ -1,0 +1,10 @@
+node_modules
+dist
+.DS_Store
+.env
+public/
+server/out
+package-lock.json
+yarn.lock
+**.vscode**
+src/Video**

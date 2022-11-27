@@ -1,0 +1,18 @@
+@keyframes fall {
+  from {
+    -webkit-transform: rotate(0) translateX(0);
+    transform: rotate(0) translateX(0);
+    opacity: 1;
+  }
+  50%,
+  60% {
+    -webkit-transform: rotate(90deg) translateX(0);
+    transform: rotate(90deg) translateX(0);
+    opacity: 1;
+  }
+  to {
+    -webkit-transform: rotate(90deg) translateX(200px);
+    transform: rotate(90deg) translateX(200px);
+    opacity: 0;
+  }
+}

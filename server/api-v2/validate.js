@@ -12,7 +12,7 @@ const shadow = yup.object({
   offsetY: yup.number().strict().default(0),
   affectStroke: yup.bool().strict().default(false),
   nonScaling: yup.bool().strict().default(false)
-}).strict();
+}).strict().nullable();
 
 const layer = yup.object({
   shadow,
@@ -35,7 +35,7 @@ const layer = yup.object({
   skewX: yup.number().default(0).strict(),
   skewY: yup.number().default(0).strict(),
   visible: yup.bool().default(true).strict(),
-  fill: yup.string().strict().required().strict(),
+  fill: yup.string().strict().strict(),
 })
 
 const scene = yup

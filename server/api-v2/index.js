@@ -21,7 +21,8 @@ const validate = require('./validate') //making sure request follows accepted sc
 
 const parse = require('./parse')  //now parsing the request for remotion friendly data
 
-const convert = require('./convert')
+const convert = require('./convert');
+const build = require('./build');
 
 app.post('/', async (req, res) => {
   try {
@@ -31,7 +32,11 @@ app.post('/', async (req, res) => {
 
      let parsed = await parse(params)
 
-     await convert(parsed)
+     if(req.query.preventsave != 'true')
+      await convert(parsed)
+
+     if(req.query.build == 'true')
+        await build()
 
       res.status(200).json(parsed)
     

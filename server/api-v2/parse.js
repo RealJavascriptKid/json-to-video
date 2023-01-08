@@ -31,7 +31,8 @@ const parse = async (video) => {
    video.code = `
         
    import { useCurrentFrame, useVideoConfig, interpolate, spring,
-             registerRoot,  Composition, AbsoluteFill, Series  } from "remotion";
+             registerRoot,  Composition, AbsoluteFill, Series,
+            Img  } from "remotion";
 
 
    ${video.code}
@@ -133,36 +134,34 @@ const parseScene = async (scene) => {
 const parseLayer = async (layer) => {
 
     layer.style = await parseStyle(layer); 
+    let shadows = getShadows(layer.shadow)
+
     switch(layer.type.toLowerCase()){
         case 'background':
             layer.style.width = '100%';
             layer.style.height = '100%';
+            layer.style['background-color'] = layer.fill || '#ffffff';
             layer.code = htmltoJSX.convert(`<div style="${stringifyStyle(layer.style)}"></div>`)
             break;
         case 'statictext':
-            if(layer.shadow){
-              let shadows = [];
-              
-              if(!Array.isArray(layer.shadow))
-                 layer.shadow = [layer.shadow]
-               for(let s of layer.shadow){
-                  s = {
-                    color: "#000000",
-                    blur: 0,
-                    offsetX: 0,
-                    offsetY: 0,
-                    affectStroke: false,
-                    nonScaling: false,
-                    ...s
-                  }
-                  // offset-x | offset-y | blur-radius | color 
-                  shadows.push(`${s.offsetX}px ${s.offsetY}px ${s.blur}px ${s.color}`)
-               }
-              
-              layer.style['text-shadow'] = shadows.join(',')
+            if(layer.shadow){              
+              if(shadows.length)
+                layer.style['text-shadow'] = shadows.join(',')
             }
+            layer.style['color'] = layer.fill || '#000000';
             layer.code = htmltoJSX.convert(`<div style="${stringifyStyle(layer.style)}">${layer.text}</div>`)
             break;
+
+        case 'staticimage':
+          if(layer.shadow){              
+            if(shadows.length)
+              layer.style['text-shadow'] = shadows.join(',')
+          }
+          layer.code = htmltoJSX.convert(`<div style="${stringifyStyle(layer.style)}">
+          IMGHERE
+          </div>`)
+                                .replace('IMGHERE',`<Img src={"${layer.src}"} />`)
+          break;
     }
 
 }
@@ -183,28 +182,56 @@ const parseStyle = async (obj) => {
     if(obj.textAlign)
       style['text-align'] = obj.textAlign
 
-    style['color'] = obj.fill || '#ffffff';
+    
 
     style['line-height'] = obj.lineHeight || 1;
 
     if(obj.fontSize)
-      style['font-size'] = obj.fontSize;
+      style['font-size'] = `${obj.fontSize}px`;
 
     if(obj.fontFamily)
       style['font-fontFamily'] = obj.fontFamily;
 
     if(obj.angle)
-      style['transform'] = `rotate(${obj.angle}deg)`  
+      style['transform'] = `rotate(${obj.angle}deg)` 
       
+    obj.scaleX = obj.scaleX || obj.scale || 1;
+
+    obj.scaleY = obj.scaleY || obj.scale || 1;
+      
+    style['scale'] = `${obj.scaleX} ${obj.scaleY}`
 
     return style;
 
 }
 
+const getShadows = (shadowObj) => {
+        let shadows = [];
+              
+        if(!Array.isArray(shadowObj))
+            shadowObj = [shadowObj]
+             
+        for(let s of shadowObj){
+          s = {
+            color: "#000000",
+            blur: 0,
+            offsetX: 0,
+            offsetY: 0,
+            affectStroke: false,
+            nonScaling: false,
+            ...s
+          }
+          // offset-x | offset-y | blur-radius | color 
+          shadows.push(`${s.offsetX}px ${s.offsetY}px ${s.blur}px ${s.color}`)
+        }
+        return shadows;
+}
+
 const stringifyStyle = (styleObj) => {
     let css = '';
     for(let prop in styleObj){
-      css += `${prop}:${styleObj[prop]};`
+      css += `${prop}:${styleObj[prop]};
+              `
     }
     return css;
 }

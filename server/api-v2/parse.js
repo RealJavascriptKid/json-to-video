@@ -23,7 +23,7 @@ const parse = async (video) => {
           continue;
 
        video.code += scene.code;
-       videoJSX += `<Scene${scene.idx}/>`
+       videoJSX += `<Scene${scene.idx}/>` + '\n'
        delete scene.code;
 
    }
@@ -53,10 +53,10 @@ const parse = async (video) => {
       <>
         <Composition
           id={"myvid"}
-          width={1200}
-          height={1200}
+          width={${frame.width}}
+          height={${frame.height}}
           fps={30}
-          durationInFrames={150}
+          durationInFrames={30}
           component={Video}
         />
       </>
@@ -98,16 +98,13 @@ const parseScene = async (scene) => {
         }
         `
 
-        sceneJSX += `<${componentName}/>`
+        sceneJSX += `<${componentName}/>` + '\n'
 
         delete layer.code;
     }
 
     scene.code = `
         
-    import { useCurrentFrame, useVideoConfig, interpolate, spring } from "remotion";
-
-
     ${scene.code}
 
     const Scene${scene.idx} = (props) => {
@@ -118,9 +115,11 @@ const parseScene = async (scene) => {
                 <AbsoluteFill>
                     <Series>
                       <Series.Sequence
-                        durationInFrames={150}
+                        durationInFrames={30}
                       >
+                      <div style={{position:'relative',overflow:"hidden",width:"100%",height:"100%"}}>
                        ${sceneJSX}
+                       </div>
                       </Series.Sequence>
                     </Series>
                 </AbsoluteFill>

@@ -140,6 +140,27 @@ const parseLayer = async (layer) => {
             layer.code = htmltoJSX.convert(`<div style="${stringifyStyle(layer.style)}"></div>`)
             break;
         case 'statictext':
+            if(layer.shadow){
+              let shadows = [];
+              
+              if(!Array.isArray(layer.shadow))
+                 layer.shadow = [layer.shadow]
+               for(let s of layer.shadow){
+                  s = {
+                    color: "#000000",
+                    blur: 0,
+                    offsetX: 0,
+                    offsetY: 0,
+                    affectStroke: false,
+                    nonScaling: false,
+                    ...s
+                  }
+                  // offset-x | offset-y | blur-radius | color 
+                  shadows.push(`${s.offsetX}px ${s.offsetY}px ${s.blur}px ${s.color}`)
+               }
+              
+              layer.style['text-shadow'] = shadows.join(',')
+            }
             layer.code = htmltoJSX.convert(`<div style="${stringifyStyle(layer.style)}">${layer.text}</div>`)
             break;
     }

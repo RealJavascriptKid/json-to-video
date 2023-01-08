@@ -7,35 +7,35 @@ const frame = yup.object({
 
 const shadow = yup.object({
   color: yup.string().strict().required(),
-  blur: yup.number().default(0),
-  offsetX: yup.number().default(0),
-  offsetY: yup.number().default(0),
-  affectStroke: yup.bool().default(false),
-  nonScaling: yup.bool().default(false)
-});
+  blur: yup.number().strict().default(0),
+  offsetX: yup.number().strict().default(0),
+  offsetY: yup.number().strict().default(0),
+  affectStroke: yup.bool().strict().default(false),
+  nonScaling: yup.bool().strict().default(false)
+}).strict();
 
 const layer = yup.object({
   shadow,
   name: yup.string(),
-  angle: yup.number().default(0),
+  angle: yup.number().strict().default(0),
   //stroke: null,
-  strokeWidth: yup.number().default(0),
-  left: yup.number().default(0),
-  top: yup.number().default(0),
+  strokeWidth: yup.number().strict().default(0),
+  left: yup.number().strict().default(0),
+  top: yup.number().strict().default(0),
   width:  yup.number().required().positive().strict(),
   height:  yup.number().required().positive().strict(),
-  opacity: yup.number().default(1),
-  originX: yup.string().default('top'),
-  originY: yup.string().default('left'),
-  scaleX: yup.number().default(1),
-  scaleY: yup.number().default(1),
+  opacity: yup.number().default(1).strict(),
+  originX: yup.string().default('top').strict(),
+  originY: yup.string().default('left').strict(),
+  scaleX: yup.number().default(1).strict(),
+  scaleY: yup.number().default(1).strict(),
   type: yup.string().strict().required(),
-  flipX: yup.bool().default(false),
-  flipY: yup.bool().default(false),
-  skewX: yup.number().default(0),
-  skewY: yup.number().default(0),
-  visible: yup.bool().default(true),
-  fill: yup.string().strict().required(),
+  flipX: yup.bool().default(false).strict(),
+  flipY: yup.bool().default(false).strict(),
+  skewX: yup.number().default(0).strict(),
+  skewY: yup.number().default(0).strict(),
+  visible: yup.bool().default(true).strict(),
+  fill: yup.string().strict().required().strict(),
 })
 
 const scene = yup

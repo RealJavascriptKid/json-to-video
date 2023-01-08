@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "My Remotion video",
   "scripts": {
-    "start": "node server/index.js",
-    "develop": "nodemon -w server/index.js server/*.js",
+    "start": "node server/api-v2/index.js",
+    "develop": "nodemon -w server/api-v2/index.js server/api-v2/*.js",
     "start-v1": "node server/api-v1/index.js",
     "develop-v1": "nodemon -w server/api-v1/index.js server/*.js",
-    "debugvid": "remotion preview src/VideoRAoHilRxqWVtAwl/index.js",
+    "debugvid1": "remotion preview src/VideoRAoHilRxqWVtAwl/index.js",
+    "debug": "remotion preview src/api2vid.jsx",
     "upgrade": "remotion upgrade",
     "test": "eslint src --ext ts,tsx,js,jsx"
   },

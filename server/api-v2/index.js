@@ -17,7 +17,11 @@ app.use(express.json());
 // list of videos in progress
 const videosArr = [];
 
-const validate = require('./validate')
+const validate = require('./validate') //making sure request follows accepted schema
+
+const parse = require('./parse')  //now parsing the request for remotion friendly data
+
+const convert = require('./convert')
 
 app.post('/', async (req, res) => {
   try {
@@ -25,7 +29,11 @@ app.post('/', async (req, res) => {
      const params = req.body;
      await validate(params);
 
-      res.status(200).json(params)
+     let parsed = await parse(params)
+
+     await convert(parsed)
+
+      res.status(200).json(parsed)
     
   } catch (e) {
     res.status(400).json({ error: e.message });

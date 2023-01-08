@@ -156,10 +156,8 @@ const parseLayer = async (layer) => {
             if(shadows.length)
               layer.style['text-shadow'] = shadows.join(',')
           }
-          layer.code = htmltoJSX.convert(`<div style="${stringifyStyle(layer.style)}">
-          IMGHERE
-          </div>`)
-                                .replace('IMGHERE',`<Img src={"${layer.src}"} />`)
+          layer.code = htmltoJSX.convert(`<img style="${stringifyStyle(layer.style)}"/>`)
+                                .replace('<img ',`<Img src={"${layer.src}"} `)
           break;
     }
 
@@ -199,6 +197,13 @@ const parseStyle = async (obj) => {
     obj.scaleY = obj.scaleY || obj.scale || 1;
       
     style['scale'] = `${obj.scaleX} ${obj.scaleY}`
+
+
+    obj.originX = obj.originX || 'left';
+
+    obj.originY = obj.originY || 'top';
+
+    style['transform-origin'] = `${obj.originX} ${obj.originY}`
 
     return style;
 

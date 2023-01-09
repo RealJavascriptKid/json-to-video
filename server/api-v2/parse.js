@@ -159,6 +159,10 @@ const parseLayer = async (layer) => {
           layer.code = htmltoJSX.convert(`<img style="${stringifyStyle(layer.style)}"/>`)
                                 .replace('<img ',`<Img src={"${layer.src}"} `)
           break;
+        case 'staticpath':
+           layer.code = parseSVG(layer)
+           break;
+
     }
 
 }
@@ -207,6 +211,30 @@ const parseStyle = async (obj) => {
 
     return style;
 
+}
+
+const parseSVG = (layer) => {
+
+  if(!layer.path || layer.type.toLowerCase() !== 'staticpath')
+      return '';
+
+  let str = ``;
+
+  const path = layer.path;
+
+  for (let p of path) {
+    str += "\n" + p.shift() + " ";
+    str += p.join(",");
+  }
+
+  let svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" style="${stringifyStyle(layer.style)}">
+      <path
+        d="${str}"
+        fill="${layer.fill}"
+      /></svg>
+      `;
+  return htmltoJSX.convert(svg);
 }
 
 const getShadows = (shadowObj) => {

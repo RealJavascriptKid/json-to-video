@@ -228,7 +228,7 @@ const parseSVG = (layer) => {
   }
 
   let svg = `
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" style="${stringifyStyle(layer.style)}">
+      <svg xmlns="http://www.w3.org/2000/svg" style="${stringifyStyle(layer.style)}">
       <path
         d="${str}"
         fill="${layer.fill}"
